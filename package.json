@@ -1,9 +1,18 @@
 {
   "dependencies": {
+    "@prisma/client": "^7.10.0",
     "clsx": "^2.1.1",
     "framer-motion": "^13.1.1",
     "lucide-react": "^1.37.0",
+    "next-auth": "^5.0.0-beta.32",
     "tailwind-merge": "^3.6.0",
     "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "prisma": "^8.0.0-rc.12"
+  },
+  "scripts": {
+    "postinstall": "prisma skills sync || exit 0"
   }
 }
