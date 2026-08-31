@@ -1,35 +1,37 @@
-import { Sidebar } from "@/components/dashboard/Sidebar";
-import { UserNav } from "@/components/dashboard/UserNav";
+import Link from "next/link";
+import { AmbientBackground } from "@/components/ui/AmbientBackground";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { ShieldCheck, ArrowRight } from "lucide-react";
 
-export default function DashboardPage() {
+export default function Home() {
   return (
-    <div className="flex min-h-screen bg-slate-950">
-      <Sidebar />
-      <main className="flex-1 p-8 text-white">
-        <header className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold">Overview</h1>
-            <p className="text-xs text-gray-400">Welcome to your secure control panel.</p>
-          </div>
-          <UserNav />
-        </header>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <GlassCard>
-            <h3 className="text-sm font-medium text-gray-400">Total Sessions</h3>
-            <p className="mt-2 text-3xl font-bold text-cyan-400">1,248</p>
-          </GlassCard>
-          <GlassCard>
-            <h3 className="text-sm font-medium text-gray-400">Security Score</h3>
-            <p className="mt-2 text-3xl font-bold text-emerald-400">98%</p>
-          </GlassCard>
-          <GlassCard>
-            <h3 className="text-sm font-medium text-gray-400">Active Tokens</h3>
-            <p className="mt-2 text-3xl font-bold text-violet-400">3</p>
-          </GlassCard>
+    <main className="relative flex min-h-screen flex-col items-center justify-center p-6 text-center">
+      <AmbientBackground />
+      <GlassCard className="max-w-xl p-10">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-500/10 text-cyan-400">
+          <ShieldCheck className="h-10 w-10" />
         </div>
-      </main>
-    </div>
+        <h1 className="text-4xl font-extrabold tracking-tight text-white mb-3">
+          Smart Auth Glass
+        </h1>
+        <p className="text-sm text-gray-300 mb-8 leading-relaxed">
+          Full-stack authentication system built with Next.js, Framer Motion glassmorphism design, and Prisma ORM.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link
+            href="/login"
+            className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:opacity-90"
+          >
+            Sign In <ArrowRight className="h-4 w-4" />
+          </Link>
+          <Link
+            href="/register"
+            className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md transition-all hover:bg-white/10"
+          >
+            Create Account
+          </Link>
+        </div>
+      </GlassCard>
+    </main>
   );
 }
