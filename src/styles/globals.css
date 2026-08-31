@@ -20,7 +20,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom Glassmorphism Utility Classes */
 .glass-panel {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(16px);
@@ -42,7 +41,6 @@ body {
   box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
 }
 
-/* Scrollbar Customization */
 ::-webkit-scrollbar {
   width: 8px;
 }
