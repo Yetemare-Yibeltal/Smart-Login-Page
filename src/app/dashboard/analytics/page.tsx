@@ -12,6 +12,7 @@ export default function AnalyticsPage() {
           <div className="mt-6 h-64 w-full rounded-2xl bg-white/5 flex items-center justify-center border border-white/10">
             <span className="text-xs text-gray-500">[ Dynamic Analytics Visualization ]</span>
           </div>
+          
         </GlassCard>
       </main>
     </div>
