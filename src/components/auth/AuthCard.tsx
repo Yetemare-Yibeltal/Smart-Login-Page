@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Lock, User, ArrowRight, Github, Chrome } from "lucide-react";
+import { Mail, Lock, User, ArrowRight, Github, Globe } from "lucide-react";
 import { GlassInput } from "@/components/ui/GlassInput";
 
 export const AuthCard = () => {
