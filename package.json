@@ -10,20 +10,17 @@
   },
   "devDependencies": {
     "@types/node": "^26.4.0",
-    "prisma": "^8.0.0-rc.12"
+    "@types/react": "19.2.18",
+    "prisma": "^8.0.0-rc.12",
+    "typescript": "5.9.3"
   },
-  "scripts": {
-    "postinstall": "prisma skills sync || exit 0"
-  },
-  {
-  "name": "smart-login-page",
-  "version": "0.1.0",
-  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
-  }
-}
+  },
+  "name": "smart-login-page",
+  "version": "0.1.0",
+  "private": true
 }
