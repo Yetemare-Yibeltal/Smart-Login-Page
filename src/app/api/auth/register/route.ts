@@ -1,35 +1,52 @@
 import { NextResponse } from "next/server";
-import { registerSchema } from "@/lib/validations/auth";
-import { rateLimit } from "@/lib/security/rate-limit";
+import bcrypt from "bcryptjs";
 
-export async function POST(req: Request) {
+// Mock database array (Replace with Prisma/MySQL/MongoDB in production)
+const usersDatabase: any[] = [];
+
+export async function POST(request: Request) {
   try {
-    const ip = req.headers.get("x-forwarded-for") || "127.0.0.1";
-    const limitCheck = rateLimit(ip, 5, 60000);
+    const { name, email, password } = await request.json();
 
-    if (!limitCheck.success) {
+    if (!email || !password) {
       return NextResponse.json(
-        { error: "Too many requests. Please try again in a minute." },
-        { status: 429 },
+        { message: "Email and password are required" },
+        { status: 400 },
       );
     }
 
-    const body = await req.json();
-    const validatedData = registerSchema.parse(body);
+    // Check if user already exists
+    const existingUser = usersDatabase.find((user) => user.email === email);
+    if (existingUser) {
+      return NextResponse.json(
+        { message: "User already exists with this email" },
+        { status: 409 },
+      );
+    }
 
-    // Mock account registration - persist to Prisma user model
+    // Hash password with salt round of 10
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = {
+      id: Date.now().toString(),
+      name,
+      email,
+      password: hashedPassword,
+    };
+
+    usersDatabase.push(newUser);
+
     return NextResponse.json(
       {
-        message: "User registered successfully.",
-        user: { name: validatedData.name, email: validatedData.email },
+        message: "User created successfully",
+        user: { id: newUser.id, name: newUser.name, email: newUser.email },
       },
       { status: 201 },
     );
-  } catch (err: unknown) {
-    const error = err as Error;
+  } catch (error) {
     return NextResponse.json(
-      { error: error.message || "Invalid payload" },
-      { status: 400 },
+      { message: "Internal server error" },
+      { status: 500 },
     );
   }
 }
