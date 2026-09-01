@@ -1,7 +1,7 @@
 import React from "react";
 import { Inter } from "next/font/google";
 import "@/styles/globals.css";
-// import { AuthProvider } from "@/components/AuthProvider"; // import your AuthProvider here
+import { AuthProvider } from "@/context/AuthProvider"; // adjust path if your AuthProvider is under src/components/AuthProvider
 
 const inter = Inter({ subsets: ["latin"] });
 
