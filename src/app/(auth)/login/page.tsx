@@ -2,19 +2,31 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { FaEnvelope, FaLock, FaArrowLeft } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { FaEnvelope, FaLock, FaArrowLeft, FaCheckCircle } from "react-icons/fa";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { AmbientBackground } from "@/components/ui/AmbientBackground";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 800);
+    setStatusMessage("");
+
+    setTimeout(() => {
+      login({ email });
+      setIsLoading(false);
+      setStatusMessage("Sign in successful! Redirecting...");
+      setTimeout(() => router.push("/"), 1200);
+    }, 800);
   };
 
   return (
@@ -31,6 +43,12 @@ export default function LoginPage() {
 
         <h2 className="text-3xl font-bold text-center text-white mb-2">Welcome Back</h2>
         <p className="text-gray-400 text-sm text-center mb-6">Sign in to your account</p>
+
+        {statusMessage && (
+          <div className="mb-4 flex items-center gap-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-3 text-sm text-emerald-400">
+            <FaCheckCircle /> {statusMessage}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
