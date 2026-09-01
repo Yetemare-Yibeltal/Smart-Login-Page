@@ -3,30 +3,47 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaEnvelope, FaLock, FaArrowLeft, FaCheckCircle } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaArrowLeft, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { AmbientBackground } from "@/components/ui/AmbientBackground";
 import { useAuth } from "@/components/auth/AuthProvider";
 
-export default function LoginPage() {
+export function LoginForm() {
   const router = useRouter();
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setStatusMessage("");
+    setError("");
 
-    setTimeout(() => {
-      login({ email });
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to log in");
+      }
+
+      login(data.user);
+      setStatusMessage("Login successful! Redirecting...");
+      setTimeout(() => router.push("/"), 1000);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
       setIsLoading(false);
-      setStatusMessage("Sign in successful! Redirecting...");
-      setTimeout(() => router.push("/"), 1200);
-    }, 800);
+    }
   };
 
   return (
@@ -47,6 +64,12 @@ export default function LoginPage() {
         {statusMessage && (
           <div className="mb-4 flex items-center gap-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-3 text-sm text-emerald-400">
             <FaCheckCircle /> {statusMessage}
+          </div>
+        )}
+
+        {error && (
+          <div className="mb-4 flex items-center gap-2 rounded-xl bg-rose-500/10 border border-rose-500/30 p-3 text-sm text-rose-400">
+            <FaExclamationCircle /> {error}
           </div>
         )}
 
