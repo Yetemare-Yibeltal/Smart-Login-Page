@@ -1,3 +1,10 @@
+import React from "react";
+import { Inter } from "next/font/google";
+import "@/styles/globals.css";
+// import { AuthProvider } from "@/components/AuthProvider"; // import your AuthProvider here
+
+const inter = Inter({ subsets: ["latin"] });
+
 export default function RootLayout({
   children,
 }: {
