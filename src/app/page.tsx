@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { FaShieldAlt, FaArrowRight } from "react-icons/fa";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { AmbientBackground } from "@/components/ui/AmbientBackground";
 
@@ -8,10 +8,10 @@ export default function Home() {
     <main className="relative flex min-h-screen flex-col items-center justify-center p-6 text-white overflow-hidden">
       <AmbientBackground />
 
-      <GlassCard className="w-full max-w-xl text-center p-10 backdrop-blur-2xl border border-white/10 bg-white/5 rounded-3xl shadow-2xl">
+      <GlassCard className="w-full max-w-xl text-center p-10 backdrop-blur-2xl border border-white/10 bg-white/5 rounded-3xl shadow-2xl relative z-10">
         <div className="flex justify-center mb-4">
           <div className="p-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
-            <ShieldCheck className="h-8 w-8" />
+            <FaShieldAlt className="h-8 w-8" />
           </div>
         </div>
 
@@ -26,12 +26,14 @@ export default function Home() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/login"
+            prefetch={true}
             className="flex items-center justify-center gap-2 rounded-xl bg-cyan-500 px-6 py-3 text-sm font-semibold text-slate-950 transition-all hover:bg-cyan-400 hover:shadow-lg hover:shadow-cyan-500/25"
           >
-            Sign In <ArrowRight className="h-4 w-4" />
+            Sign In <FaArrowRight className="h-3.5 w-3.5" />
           </Link>
           <Link
             href="/register"
+            prefetch={true}
             className="flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md transition-all hover:bg-white/10"
           >
             Create Account
