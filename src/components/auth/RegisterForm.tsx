@@ -3,12 +3,12 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaUser, FaEnvelope, FaLock, FaArrowLeft, FaCheckCircle } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaLock, FaArrowLeft, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { AmbientBackground } from "@/components/ui/AmbientBackground";
 import { useAuth } from "@/components/auth/AuthProvider";
 
-export default function RegisterPage() {
+export function RegisterForm() {
   const router = useRouter();
   const { login } = useAuth();
   const [name, setName] = useState("");
@@ -16,18 +16,35 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setStatusMessage("");
+    setError("");
 
-    setTimeout(() => {
-      login({ name, email });
-      setIsLoading(false);
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to create account");
+      }
+
+      login(data.user);
       setStatusMessage("Account created successfully! Redirecting...");
-      setTimeout(() => router.push("/"), 1200);
-    }, 800);
+      setTimeout(() => router.push("/"), 1000);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -48,6 +65,12 @@ export default function RegisterPage() {
         {statusMessage && (
           <div className="mb-4 flex items-center gap-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-3 text-sm text-emerald-400">
             <FaCheckCircle /> {statusMessage}
+          </div>
+        )}
+
+        {error && (
+          <div className="mb-4 flex items-center gap-2 rounded-xl bg-rose-500/10 border border-rose-500/30 p-3 text-sm text-rose-400">
+            <FaExclamationCircle /> {error}
           </div>
         )}
 
