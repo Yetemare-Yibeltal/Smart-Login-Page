@@ -1,8 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  turbo: {
-    root: "C:\\Users\\Selam Yibeltal\\smart-login-page",
-  },
-};
+const nextConfig = {};
 
 export default nextConfig;
