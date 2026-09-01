@@ -1,17 +1,29 @@
 {
+  "name": "smart-login-page",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
   "dependencies": {
+    "@prisma/client": "^7.10.0",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "framer-motion": "^13.1.1",
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^1.37.0",
+    "next": "16.3.3",
     "next-auth": "^5.0.0-beta.32",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-icons": "^5.7.0",
     "tailwind-merge": "^3.6.0",
     "zod": "^4.5.4"
   },
   "devDependencies": {
-    "@prisma/client": "^7.10.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.10",
@@ -22,14 +34,5 @@
     "prisma": "^8.0.0-rc.12",
     "tailwindcss": "^4.3.3",
     "typescript": "5.9.3"
-  },
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "name": "smart-login-page",
-  "version": "0.1.0",
-  "private": true
+  }
 }
