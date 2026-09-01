@@ -2,20 +2,32 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { FaUser, FaEnvelope, FaLock, FaArrowLeft } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { FaUser, FaEnvelope, FaLock, FaArrowLeft, FaCheckCircle } from "react-icons/fa";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { AmbientBackground } from "@/components/ui/AmbientBackground";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 export default function RegisterPage() {
+  const router = useRouter();
+  const { login } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 800);
+    setStatusMessage("");
+
+    setTimeout(() => {
+      login({ name, email });
+      setIsLoading(false);
+      setStatusMessage("Account created successfully! Redirecting...");
+      setTimeout(() => router.push("/"), 1200);
+    }, 800);
   };
 
   return (
@@ -32,6 +44,12 @@ export default function RegisterPage() {
 
         <h2 className="text-3xl font-bold text-center text-white mb-2">Create Account</h2>
         <p className="text-gray-400 text-sm text-center mb-6">Join us today to get started</p>
+
+        {statusMessage && (
+          <div className="mb-4 flex items-center gap-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-3 text-sm text-emerald-400">
+            <FaCheckCircle /> {statusMessage}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
