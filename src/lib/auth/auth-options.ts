@@ -6,14 +6,8 @@ export const authOptions: NextAuthConfig = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: {
-          label: "Email",
-          type: "email",
-        },
-        password: {
-          label: "Password",
-          type: "password",
-        },
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (
@@ -25,12 +19,12 @@ export const authOptions: NextAuthConfig = {
           return null;
         }
 
-        // Preserve the existing placeholder behavior until real credential verification is implemented.
+        // Preserve the existing placeholder behavior.
         return {
           id: "1",
           email: credentials.email,
           name: "User",
-          role: "USER",
+          role: "USER" as const,
         };
       },
     }),
@@ -46,8 +40,10 @@ export const authOptions: NextAuthConfig = {
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id;
-        session.user.role = token.role;
+        session.user.id =
+          typeof token.id === "string" ? token.id : "";
+        session.user.role =
+          token.role === "ADMIN" ? "ADMIN" : "USER";
       }
 
       return session;
